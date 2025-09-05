@@ -18,7 +18,15 @@ For more information on contributing (new feature, bug fix, pull request etc),
 please see [CONTRIBUTING](CONTRIBUTING.md) .
 
 ----
-# PS1 (short mode)
+# Requirements
+
+At present, all that is required is a `bash` released after late 2006 (19 years
+ago), `sed` and `wget` (will make it optionally use `curl` too).
+
+----
+# Examples
+
+## PS1 (short mode)
 
 _Bash GitHub Lights_ short mode (`-s`/`--short`) is perfect for including is
 your prompt (`PS1`) via `PROMPT_COMMAND`. The light positions match that of
@@ -47,8 +55,7 @@ represent the current state.
 
   ![Outage and Depredation output](assets/ps1-deg2-out3.png)
 
-----
-# Detailed mode
+## Detailed mode
 
 In detailed mode, a summary is listed:
 

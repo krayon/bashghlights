@@ -392,7 +392,7 @@ refreshstatus() {
     [ ! -d "${dir}" ] && {
         mkdir "${dir}" || {
             >&2 echo "ERROR: Cannot create configuration directory: ${dir}"
-            exit ${ERR_NOPERM}
+            exit ${ERR_CANTCREAT}
         }
     }
 
@@ -588,13 +588,18 @@ decho "START"
 
 
 infile="${1}"; shift 1
-[ ! -r "${infile}" ] && {
+[ -z "${infile}" ] && {
     refreshstatus
 
     [ -r "${PATH_FILE_STATUS}" ] && infile="${PATH_FILE_STATUS}" || {
         >&2 echo "ERROR: JSON summary file required"
         exit ${ERR_NOINPUT}
     }
+}
+
+[ ! -r "${infile}" ] && {
+    >&2 echo "ERROR: Failed to read JSON summary file: ${infile}"
+    exit ${ERR_NOINPUT}
 }
 
 declare -A statuses

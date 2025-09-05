@@ -158,7 +158,7 @@ done <<<"${_CONFS}" #}
 
 # Version
 APP_NAME="Bash GitHub Lights (bashghlights)"
-APP_VER="0.01"
+APP_VER="0.0.1"
 APP_COPY="(C)2025 Krayon (Todd Harbour)"
 APP_URL="https://github.com/krayon/bashghlights/"
 

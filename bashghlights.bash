@@ -90,7 +90,7 @@ UPDATE_FREQ=300
 
 # PATH_FILE_STATUS
 #   The path to the status file.
-PATH_FILE_STATUS="${XDG_CONFIG_HOME}/${_APP_NAME}/status.json"
+PATH_FILE_STATUS="${XDG_CONFIG_HOME:-${HOME}/.config}/${_APP_NAME}/status.json"
 
 # ] CONFIG_END
 

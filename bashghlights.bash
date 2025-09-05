@@ -76,6 +76,17 @@ PATH_SED="*"
 # TODO: Default option, colours etc
 
 detailed=0
+
+# UPDATE_FREQ
+#   How often the status should be updated. When bashghlights is executed, it
+#   will update its status database when it is older than this number of
+#   seconds. 0 means update each time.
+UPDATE_FREQ=300
+
+# PATH_FILE_STATUS
+#   The path to the status file.
+PATH_FILE_STATUS="${XDG_CONFIG_HOME}/${_APP_NAME}/status.json"
+
 # ] CONFIG_END
 
 
@@ -367,6 +378,27 @@ decho() {
 #----------------------------------------------------------
 # START #
 
+refreshstatus() {
+    local dir
+
+    [ $(( $(date +%s) - $([ -r "${PATH_FILE_STATUS}" ] && stat --format=%Y "${PATH_FILE_STATUS}" || echo 0) )) -gt "${UPDATE_FREQ}" ] || return
+
+    dir="${PATH_FILE_STATUS%/*}/"
+    [ ! -d "${dir}" ] && {
+        mkdir "${dir}" || {
+            >&2 echo "ERROR: Cannot create configuration directory: ${dir}"
+            exit ${ERR_NOPERM}
+        }
+    }
+
+    wget -qO "${PATH_FILE_STATUS}.tmp" "https://www.githubstatus.com/api/v2/summary.json" || {
+        >&2 echo "ERROR: Failed to update GitHub service summary"
+        exit ${ERR_UNAVAILABLE}
+    }
+
+    mv "${PATH_FILE_STATUS}.tmp" "${PATH_FILE_STATUS}"
+}
+
 # <serviceA> <serviceB>
 laststatus=''
 draw2services() {
@@ -544,12 +576,15 @@ decho "START"
 
 
 
-[ ! -r "${1}" ] && {
-    >&2 echo "ERROR: JSON summary file required"
-    exit ${ERR_USAGE}
+infile="${1}"; shift 1
+[ ! -r "${infile}" ] && {
+    refreshstatus
+
+    [ -r "${PATH_FILE_STATUS}" ] && infile="${PATH_FILE_STATUS}" || {
+        >&2 echo "ERROR: JSON summary file required"
+        exit ${ERR_NOINPUT}
+    }
 }
-
-
 
 declare -A statuses
 while read -r line; do #{
@@ -571,7 +606,10 @@ while read -r line; do #{
         [ "${status}" == 'unknown'  ] && [ "${worst_status}" != 'outage'   ] && [ "${worst_status}" != 'degraded'  ] && worst_status='unknown'
     }
 done < <(
-    jq -r '.components[] | .name + "|" + .status' <"${1}"
+    jq -r '.components[] | .name + "|" + .status' <"${infile}" || {
+        >&2 echo "ERROR: Failed to parse JSON summary: ${infile}"
+        exit ${ERR_DATAERR}
+    }
 ) #}
 
 if [ ${detailed} -eq 0 ]; then #{

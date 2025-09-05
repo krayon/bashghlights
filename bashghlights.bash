@@ -73,6 +73,11 @@ DEBUG=0
 #   "sed" called without a path).
 PATH_SED="*"
 
+# PATH_WGET
+#   The path to the wget binary. If set to "*", $PATH is used (ie.
+#   "wget" called without a path).
+PATH_WGET="*"
+
 # TODO: Default option, colours etc
 
 detailed=0
@@ -569,6 +574,12 @@ decho "Path for sed set to: '${PATH_SED}'..."
 [ "${PATH_SED}" == "*" ] && PATH_SED="sed"
 PATH_SED="$(check_for_cmd "sed" "${PATH_SED}" 1 1)" || exit $?
 decho "sed path: ${PATH_SED}"
+
+# wget (REQUIRED)
+decho "Path for wget set to: '${PATH_WGET}'..."
+[ "${PATH_WGET}" == "*" ] && PATH_WGET="wget"
+PATH_WGET="$(check_for_cmd "wget" "${PATH_WGET}" 1 1)" || exit $?
+decho "wget path: ${PATH_WGET}"
 
 
 

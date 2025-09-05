@@ -48,4 +48,11 @@ represent the current state.
   ![Outage and Depredation output](assets/ps1-deg2-out3.png)
 
 ----
+# Detailed mode
+
+In detailed mode, a summary is listed:
+
+  ![Summary of detailed degraded output](assets/detail1.png)
+
+----
 [//]: # ( vim: set ts=4 sw=4 et cindent tw=80 ai si syn=markdown ft=markdown: )

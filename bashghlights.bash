@@ -158,7 +158,7 @@ done <<<"${_CONFS}" #}
 
 # Version
 APP_NAME="Bash GitHub Lights (bashghlights)"
-APP_VER="0.0.2"
+APP_VER="0.0.3"
 APP_COPY="(C)2025 Krayon (Todd Harbour)"
 APP_URL="https://github.com/krayon/bashghlights/"
 
@@ -194,6 +194,7 @@ ERR_MISSINGDEP=90
 # Defaults not in config
 
 declare -A col colfg
+colfg['white']="\033[1;37m"
 colfg['pink']="\033[1;35m"
 colfg['lightgreen']="\033[1;32m"
 colfg['lightred']="\033[1;31m"
@@ -207,7 +208,17 @@ col['outage']="${colfg['lightred']}"
 col['degraded']="${colfg['yellow']}"
 col['unknown']="${colfg['pink']}"
 
-logo="${colfg['pink']}"'\uE709'"${col['reset']}"
+# \uE709 GitHub Logo
+# \uF113 Monamoji
+# \uE717 "GitHub"
+# \uF477 Hubot
+# \uF127 Broken chain
+# \uF21E Heart monitor
+# \uF492 Plug
+# \uF663 No-Cloud
+# \uFC57 Closed out heart
+logo="${colfg['white']}"'\uE709'"${col['reset']}"
+unlogo="${colfg['lightred']}"'\uFC57'"${col['reset']}"
 
 declare -a serviceOrder
 
@@ -383,10 +394,11 @@ decho() {
 #----------------------------------------------------------
 # START #
 
+lastupdate=$([ -r "${PATH_FILE_STATUS}" ] && stat --format=%Y "${PATH_FILE_STATUS}" || echo 0)
 refreshstatus() {
     local dir
 
-    [ $(( $(date +%s) - $([ -r "${PATH_FILE_STATUS}" ] && stat --format=%Y "${PATH_FILE_STATUS}" || echo 0) )) -gt "${UPDATE_FREQ}" ] || return
+    [ $(( $(date +%s) - lastupdate )) -gt "${UPDATE_FREQ}" ] || return 0
 
     dir="${PATH_FILE_STATUS%/*}/"
     [ ! -d "${dir}" ] && {
@@ -398,10 +410,12 @@ refreshstatus() {
 
     wget -qO "${PATH_FILE_STATUS}.tmp" "https://www.githubstatus.com/api/v2/summary.json" || {
         >&2 echo "ERROR: Failed to update GitHub service summary"
-        exit ${ERR_UNAVAILABLE}
+        return ${ERR_UNAVAILABLE}
     }
 
     mv "${PATH_FILE_STATUS}.tmp" "${PATH_FILE_STATUS}"
+
+    return ${ERR_NONE}
 }
 
 # <serviceA> <serviceB>
@@ -590,6 +604,8 @@ decho "START"
 infile="${1}"; shift 1
 [ -z "${infile}" ] && {
     refreshstatus
+    _ret=$?
+    [ ${ret} -eq ${ERR_NONE} ] && ret=$_ret
 
     [ -r "${PATH_FILE_STATUS}" ] && infile="${PATH_FILE_STATUS}" || {
         >&2 echo "ERROR: JSON summary file required"
@@ -632,7 +648,7 @@ if [ ${detailed} -eq 0 ]; then #{
 
 i=0
 serviceout=()
-echo -en "${logo}"
+[ ${ret} -ne ${ERR_NONE} ] && echo -en "${unlogo}" || echo -en "${logo}"
 for service in "${serviceOrder[@]}"; do #{
     k="$(sed 's# *$##' <<<"${service}")"
     status="${statuses[${k}]}"
@@ -645,12 +661,16 @@ for service in "${serviceOrder[@]}"; do #{
     draw2services "${serviceout[0]}" "${serviceout[1]}"
     i=0
 done #}
-echo -e "${logo}${col['reset']}"
+[ ${ret} -ne ${ERR_NONE} ] && echo -e "${unlogo}" || echo -e "${logo}"
 
 else #} {
 
-echo -e "${logo} ${col[${worst_status}]}GitHub Status${col['reset']} ${logo}"
-echo
+[ ${ret} -ne ${ERR_NONE} ] && echo -en "${unlogo}" || echo -en "${logo}"
+echo -en " ${col[${worst_status}]}GitHub Status${col['reset']} "
+[ ${ret} -ne ${ERR_NONE} ] && echo -en "${unlogo}" || echo -en "${logo}"
+echo; echo
+echo -n "Last update: $(date --rfc-3339=seconds -d @${lastupdate})"
+echo; echo
 for service in "${serviceOrder[@]}"; do #{
     k="$(sed 's# *$##' <<<"${service}")"
     status="${statuses[${k}]}"
@@ -667,6 +687,8 @@ for service in "${serviceOrder[@]}"; do #{
 done #}
 
 fi #}
+
+[ ${ret} -ne ${ERR_NONE} ] && exit ${ret}
 
 [ "${worst_status}" == 'degraded'    ] && exit ${ERR_DEGRADED}
 [ "${worst_status}" == 'outage'      ] && exit ${ERR_OUTAGE}

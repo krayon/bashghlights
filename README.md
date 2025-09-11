@@ -62,4 +62,26 @@ In detailed mode, a summary is listed:
   ![Summary of detailed degraded output](assets/detail1.png)
 
 ----
+# Installation
+
+To install, clone the repository, then create a symlink to the bash script in
+your `$PATH` somewhere. For example, if you have `bin` in your home directory
+set in your path, you can:
+
+```bash
+cd "WHERE_I_WANT_TO_CLONE_THE_REPO"/
+git clone https://github.com/krayon/bashghlights.git/
+cd bashghlights
+ln -s $(realpath "ghlights.bash") ~/bin/ghlights
+```
+
+Alternatively, you can simply create an alias and add it to your `.bashrc`:
+
+```bash
+cd "WHERE_I_WANT_TO_CLONE_THE_REPO"/
+git clone https://github.com/krayon/bashghlights.git/
+cd bashghlights
+echo 'alias ghlights="'"$(realpath "ghlights.bash")"'"' >>~/.bashrc
+```
+
 [//]: # ( vim: set ts=4 sw=4 et cindent tw=80 ai si syn=markdown ft=markdown: )

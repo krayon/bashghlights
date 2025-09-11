@@ -2,7 +2,7 @@
 # vim:set ts=4 sw=4 tw=80 et ai si cindent cino=L0,b1,(1s,U1,m1,j1,J1,)50,*90 cinkeys=0{,0},0),0],\:,!^F,o,O,e,0=break:
 #
 #/**********************************************************************
-#    Bash GitHub Lights
+#    (Bash) GitHub Lights
 #    Copyright (C)2025 Todd Harbour (krayon)
 #
 #    This program is free software; you can redistribute it and/or
@@ -21,9 +21,9 @@
 #      51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # **********************************************************************/
 
-# bashghlights
-# ------------
-# bashghlights outputs the status of GitHub.com in various formats
+# ghlights
+# --------
+# ghlights outputs the status of GitHub.com in various formats
 #
 # Required:
 #     sed
@@ -31,7 +31,7 @@
 #     -
 
 # Config paths
-_APP_NAME="bashghlights"
+_APP_NAME="ghlights"
 _CONF_FILENAME="${_APP_NAME}.conf"
 
 
@@ -41,13 +41,13 @@ _CONF_FILENAME="${_APP_NAME}.conf"
 # Do NOT edit the CONFIGURATION below. Instead generate the default
 # configuration file in your XDG_CONFIG directory thusly:
 #
-#     ./bashghlights.bash -C >"$XDG_CONFIG_HOME/bashghlights.conf"
+#     ./ghlights.bash -C >"$XDG_CONFIG_HOME/ghlights.conf"
 #
 # or perhaps:
-#     ./bashghlights.bash -C >~/.config/bashghlights.conf
+#     ./ghlights.bash -C >~/.config/ghlights.conf
 #
 # or even in your home directory (deprecated):
-#     ./bashghlights.bash -C >~/.bashghlights.conf
+#     ./ghlights.bash -C >~/.ghlights.conf
 #
 # Consult --help for more complete information.
 #
@@ -55,8 +55,8 @@ _CONF_FILENAME="${_APP_NAME}.conf"
 
 # [ CONFIG_START
 
-# Bash GitHub Lights (bashghlights) - Default Configuration
-# =========================================================
+# (Bash) GitHub Lights (ghlights) - Default Configuration
+# =======================================================
 
 # DEBUG
 #   This defines debug mode which will output verbose info to stderr or, if
@@ -66,7 +66,7 @@ DEBUG=0
 # ERROR_LOG
 #   The file to output errors and debug statements (when DEBUG != 0) instead of
 #   stderr.
-#ERROR_LOG="${HOME}/bashghlights.log"
+#ERROR_LOG="${HOME}/ghlights.log"
 
 # PATH_SED
 #   The path to the sed binary. If set to "*", $PATH is used (ie.
@@ -83,7 +83,7 @@ PATH_WGET="*"
 detailed=0
 
 # UPDATE_FREQ
-#   How often the status should be updated. When bashghlights is executed, it
+#   How often the status should be updated. When ghlights is executed, it
 #   will update its status database when it is older than this number of
 #   seconds. 0 means update each time.
 UPDATE_FREQ=300
@@ -157,8 +157,8 @@ done <<<"${_CONFS}" #}
 
 
 # Version
-APP_NAME="Bash GitHub Lights (bashghlights)"
-APP_VER="0.0.3"
+APP_NAME="(Bash) GitHub Lights (ghlights)"
+APP_VER="0.0.4"
 APP_COPY="(C)2025 Krayon (Todd Harbour)"
 APP_URL="https://github.com/krayon/bashghlights/"
 

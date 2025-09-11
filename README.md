@@ -1,4 +1,4 @@
-# Bash GitHub Lights
+# (Bash) GitHub Lights
 
 ----
 # Introduction
@@ -28,11 +28,11 @@ ago), `sed` and `wget` (will make it optionally use `curl` too).
 
 ## PS1 (short mode)
 
-_Bash GitHub Lights_ short mode (`-s`/`--short`) is perfect for including is
+_(Bash) GitHub Lights_ short mode (`-s`/`--short`) is perfect for including is
 your prompt (`PS1`) via `PROMPT_COMMAND`. The light positions match that of
 GitHubLights for macOS.
 
-_Bash GitHub Lights_ will show all green lights under normal circumstances.
+_(Bash) GitHub Lights_ will show all green lights under normal circumstances.
 
   ![Normal output](assets/ps1-oper.png)
 

@@ -88,7 +88,7 @@ echo 'alias ghlights="'"$(realpath "ghlights.bash")"'"' >>~/.bashrc
 # Help
 
 ```
-(Bash) GitHub Lights (ghlights) v0.0.5
+(Bash) GitHub Lights (ghlights) v0.0.6
 (C)2025 Krayon (Todd Harbour)
 https://github.com/krayon/bashghlights/
 
@@ -100,6 +100,7 @@ Usage: ghlights [-v|--verbose] -h|--help
        ghlights [-v|--verbose] [-c|--configfile <conffile>] -C|--configuration
 
        ghlights [-v|--verbose] [-c|--configfile <conffile>]
+                [ [-s|--short] | [-d|--detailed] ]
 
 -h|--help           - Displays this help
 -V|--version        - Displays the program version

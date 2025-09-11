@@ -166,7 +166,7 @@ done <<<"${_CONFS}" #}
 
 # Version
 APP_NAME="(Bash) GitHub Lights (ghlights)"
-APP_VER="0.0.5"
+APP_VER="0.0.6"
 APP_COPY="(C)2025 Krayon (Todd Harbour)"
 APP_URL="https://github.com/krayon/bashghlights/"
 
@@ -329,6 +329,7 @@ Usage: ${_binname} [-v|--verbose] -h|--help
        ${_binname} [-v|--verbose] [-c|--configfile <conffile>] -C|--configuration
 
        ${_binname} [-v|--verbose] [-c|--configfile <conffile>]
+       ${_binnam_} [ [-s|--short] | [-d|--detailed] ]
 
 -h|--help           - Displays this help
 -V|--version        - Displays the program version

@@ -84,4 +84,58 @@ cd bashghlights
 echo 'alias ghlights="'"$(realpath "ghlights.bash")"'"' >>~/.bashrc
 ```
 
+----
+# Help
+
+```
+(Bash) GitHub Lights (ghlights) v0.0.5
+(C)2025 Krayon (Todd Harbour)
+https://github.com/krayon/bashghlights/
+
+
+(Bash) GitHub Lights (ghlights) outputs the status of GitHub.com in various formats
+
+Usage: ghlights [-v|--verbose] -h|--help
+       ghlights [-v|--verbose] -V|--version
+       ghlights [-v|--verbose] [-c|--configfile <conffile>] -C|--configuration
+
+       ghlights [-v|--verbose] [-c|--configfile <conffile>]
+
+-h|--help           - Displays this help
+-V|--version        - Displays the program version
+-c|--configfile     - Use config file to OVERLOAD default configuration. Note
+                      that all the existing configuration files are still
+                      processed PRIOR to the specified configuration file.
+-C|--configuration  - Outputs the default configuration that can be placed in a
+                      config file in XDG_CONFIG or one of the XDG_CONFIG_DIRS
+                      (in order of decreasing precedence):
+                          * COMMAND LINE PROVIDED CONFIG USING -c/--configfile *
+                          /home/krayon//.config/ghlights/ghlights.conf
+                          /home/krayon//.config/ghlights.conf
+                          /home/krayon//.ghlights.conf
+                          /etc/xdg/ghlights/ghlights.conf
+                          /etc/xdg/ghlights.conf
+                          /etc/ghlights.conf
+                      for editing.
+-v|--verbose        - Displays extra debugging information.  This is the same
+                      as setting DEBUG=1 in your config.
+                      (Currently disabled (DEFAULT))
+-s|--short          - Display only a short (7 characters) to represent the
+                      status. This is designed to match GitHub Lights for MacOS.
+                      This is great for including in your PS1 prompt.
+-d|--detailed       - Displays a detailed list of GitHub services and their
+                      current status.
+                      (Currently set (DEFAULT))
+
+When executed correctly, ghlights will return ERR_NONE (0) if all
+services are operational, ERR_DEGRADED (1) if one or more are
+degraded, and ERR_OUTAGE (2) if one or more are experiencing an
+outage. ERR_UNKNOWN (10) is returned if the status cannot be
+determined. In the event an error occurs, a larger error number will be returned
+( > 10 ).
+
+Example: ghlights -s
+```
+
+----
 [//]: # ( vim: set ts=4 sw=4 et cindent tw=80 ai si syn=markdown ft=markdown: )

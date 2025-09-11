@@ -82,9 +82,11 @@ PATH_SED="*"
 #   "wget" called without a path).
 PATH_WGET="*"
 
-# TODO: Default option, colours etc
-
-detailed=0
+# DEFAULT_TO_DETAILED
+# (DEFAULT: "1")
+#   This sets if the output should default to detailed if no explicit mode is
+#   defined.
+DEFAULT_TO_DETAILED=1
 
 # UPDATE_FREQ
 # (DEFAULT: "300")
@@ -164,7 +166,7 @@ done <<<"${_CONFS}" #}
 
 # Version
 APP_NAME="(Bash) GitHub Lights (ghlights)"
-APP_VER="0.0.4"
+APP_VER="0.0.5"
 APP_COPY="(C)2025 Krayon (Todd Harbour)"
 APP_URL="https://github.com/krayon/bashghlights/"
 
@@ -198,6 +200,9 @@ ERR_CONFIG=78      # configuration error
 ERR_MISSINGDEP=90
 
 # Defaults not in config
+
+detailed=1
+[ "${DEFAULT_TO_DETAILED}" -eq 0 ] &>/dev/null && detailed=0
 
 declare -A col colfg
 colfg['white']="\033[1;37m"
@@ -360,9 +365,19 @@ cat <<EOF
 ))
 -s|--short          - Display only a short (7 characters) to represent the
                       status. This is designed to match GitHub Lights for MacOS.
-                      This is great for including in your PS1 prompt.
+                      This is great for including in your PS1 prompt.$(
+                        [ "${DEFAULT_TO_DETAILED}" -eq 0 ] &>/dev/null && {
+                            echo "
+                      (Currently set as DEFAULT via config)"
+                        }
+)
 -d|--detailed       - Displays a detailed list of GitHub services and their
-                      current status.
+                      current status.$(
+                        [ "${DEFAULT_TO_DETAILED}" -eq 1 ] &>/dev/null && {
+                            echo "
+                      (Currently set (DEFAULT))"
+                        }
+)
 
 When executed correctly, ${_binname} will return ERR_NONE (${ERR_NONE}) if all
 services are operational, ERR_DEGRADED (${ERR_DEGRADED}) if one or more are

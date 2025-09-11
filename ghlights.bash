@@ -59,21 +59,25 @@ _CONF_FILENAME="${_APP_NAME}.conf"
 # =======================================================
 
 # DEBUG
+# (DEFAULT: '0')
 #   This defines debug mode which will output verbose info to stderr or, if
 #   configured, the debug file ( ERROR_LOG ).
 DEBUG=0
 
 # ERROR_LOG
+# (DEFAULT: UNSET)
 #   The file to output errors and debug statements (when DEBUG != 0) instead of
 #   stderr.
 #ERROR_LOG="${HOME}/ghlights.log"
 
 # PATH_SED
+# (DEFAULT: "*")
 #   The path to the sed binary. If set to "*", $PATH is used (ie.
 #   "sed" called without a path).
 PATH_SED="*"
 
 # PATH_WGET
+# (DEFAULT: "*")
 #   The path to the wget binary. If set to "*", $PATH is used (ie.
 #   "wget" called without a path).
 PATH_WGET="*"
@@ -83,12 +87,14 @@ PATH_WGET="*"
 detailed=0
 
 # UPDATE_FREQ
+# (DEFAULT: "300")
 #   How often the status should be updated. When ghlights is executed, it
 #   will update its status database when it is older than this number of
 #   seconds. 0 means update each time.
 UPDATE_FREQ=300
 
 # PATH_FILE_STATUS
+# (DEFAULT: "${XDG_CONFIG_HOME:-${HOME}/.config}/${_APP_NAME}/status.json")
 #   The path to the status file.
 PATH_FILE_STATUS="${XDG_CONFIG_HOME:-${HOME}/.config}/${_APP_NAME}/status.json"
 
@@ -345,6 +351,13 @@ cat <<EOF
                       for editing.
 -v|--verbose        - Displays extra debugging information.  This is the same
                       as setting DEBUG=1 in your config.
+                      (Currently $(
+                        [ "${DEBUG}" -eq 1 ] &>/dev/null && {
+                            echo "ENABLED via config or command line"
+                        } || {
+                            echo 'disabled (DEFAULT)'
+                        }
+))
 -s|--short          - Display only a short (7 characters) to represent the
                       status. This is designed to match GitHub Lights for MacOS.
                       This is great for including in your PS1 prompt.
